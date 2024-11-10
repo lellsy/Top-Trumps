@@ -2,7 +2,7 @@ import random
 import requests
 
 
-# Fgets pokemon stats and names from api
+# gets pokemon stats and names from api
 def get_pokemon_info(pokemon_id):
     url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_id}"
     response = requests.get(url)
