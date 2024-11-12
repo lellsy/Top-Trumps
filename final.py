@@ -74,8 +74,7 @@ def player_data(round):
    pokemon_dict_player = {pokemon_name:{ "id": pokemon_id,"height": height,"weight": weight}}
    selected_pokemons.update(pokemon_dict_player)
   except requests.ConnectionError:
-   print("An error has occured!")
-   
+   print("An error has occured!")  
  return selected_pokemons
  
 
@@ -99,7 +98,6 @@ def computer_data(round):
    selected_pokemons.update(pokemon_dict_computer)
   except requests.ConnectionError:
    print("An error has occured!")
- 
  return selected_pokemons
 
 
