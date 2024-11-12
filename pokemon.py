@@ -1,11 +1,11 @@
 import requests
 import random
 
-#sets up the api to get 5 random pokemon
-def get_random_pokemon():
-    pokemon_id = random.randint(1, 151)
+#set up the api to retrieve pokemon data
+def get_pokemon(pokemon_id):
     url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_id}"
     response = requests.get(url)
+    data = response.json()
 
 
 #SQL Database. returning names +stats - Giorgia
@@ -16,9 +16,72 @@ def calculate_initial_hp(team, chosen_stat):
     total_stat = sum(pokemon[chosen_stat] for pokemon in team)
     return total_stat // len(team)
 
+
 #prints the whole team and lets player pick their stats - Chisom
 
+def get_random_pokemon_team(size=5):
+    """
+    Generates a team of random Pokémon
+    """
+    pokemon_ids = random.sample(range(1, 152), size)  # Random Pokémon IDs from 1 to 151
+    team = [get_pokemon(pokemon_id) for pokemon_id in pokemon_ids]
+    return team
+
+def display_pokemon(pokemon):
+    """Displays Pokémon details."""
+    print(f"\nPokemon: {pokemon['name']}")
+    print(f"Type: {pokemon['type'].capitalize()}")
+    print(f"ID: {pokemon['id']}")
+    print(f"Height: {pokemon['height']}")
+    print(f"Weight: {pokemon['weight']}")
+
+def can_play_pokemon(pokemon, active_pokemon, stat_choice):
+    """
+    Check if a Pokémon can be played (Uno-style rules)
+    Returns: (bool, str) - Can be played and reason why
+    """
+    if not active_pokemon:  # First turn - can play anything
+        return True, "First turn"
+
+    # Can play if same type (like matching color in Uno)
+    if pokemon['type'] == active_pokemon['type']:
+        return True, "Matching type!"
+
+    # Can play if stat is equal or higher (like numbers in Uno)
+    if pokemon[stat_choice] >= active_pokemon[stat_choice]:
+        return True, "Equal or higher stat!"
+    else:
+        return False, "Cannot play this Pokémon"
+
+def main_game():
+    print("\nWelcome to Pokémon Top Trumps - Uno Style!")
+    print("Choose the stat that will be used for all battles:")
+    print("1. ID")
+    print("2. Height")
+    print("3. Weight")
+
+    while True:
+        choice = input("Enter your choice (1-3): ")
+        if choice in ['1', '2', '3']:
+            stat_choice = ['id', 'height', 'weight'][int(choice) - 1]
+            break
+        else:
+            print("Invalid choice. Please enter 1, 2, or 3.")
+   
 #Game play (player picks pokemon to fight) - Chisom
+
+print("\nGenerating Pokemon teams...")
+    player_team = get_random_pokemon_team()
+    computer_team = get_random_pokemon_team()
+
+    print(f"\nYou've been given {len(player_team)} Pokémon!")
+    active_pokemon = None  # This is the currently winning Pokémon on the table
+
+
+
+           
+            
+
 
 #subtracts the damage off of the total hp - Alisha
 if player_stat > computer_stat:
