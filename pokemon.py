@@ -2,6 +2,7 @@ import requests
 import random
 import sqlite3 
 
+round = 1 
 #score database code
 def create_table_scores():
 
@@ -219,6 +220,7 @@ if player_stat > computer_stat:
 
     return player_hp, computer_hp 
 
+
 #repeats cycle - Chisom
 
 #Assigning teams - Giorgia
@@ -227,3 +229,5 @@ if player_stat > computer_stat:
 
 # Start the battle
 battle(player_team, computer_team, chosen_stat)
+
+round +=1
