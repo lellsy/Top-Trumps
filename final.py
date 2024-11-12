@@ -2,6 +2,9 @@ import requests
 import random
 import sqlite3
 
+
+round = 1
+
 #Giorgia's code start
 def create_table_scores():
 
@@ -105,8 +108,8 @@ def computer_data(round):
 
 #Chisom's code start
  # Get player and computer Pokémon data
-player_pokemons = get_pokemon_data()
-computer_pokemons = get_pokemon_data()
+player_pokemons = player_data(round)
+computer_pokemons = computer_data(round)
 
 # Display data for comparison
 print("Welcome to Pokémon Top Trumps!\n")
@@ -150,8 +153,8 @@ def battle(player_pokemon, computer_pokemon, stat_choice):
 
 def game_loop():
     # Initial setup
-    player_pokemons = get_pokemon_data()
-    computer_pokemons = get_pokemon_data()
+    player_pokemons = player_data(round)
+    computer_pokemons = computer_data(round)
 
     # Player selects the stat to compete on
     print("Choose a stat for battle (hp, id, height, weight):")
