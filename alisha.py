@@ -1,5 +1,6 @@
 import requests
 import random
+from scoreDatabase import create_table_scores, insert_data_scores
 
 #sets up the api to get 5 random pokemon
 def get_random_pokemon():
@@ -90,6 +91,9 @@ def play_round(player_team, computer_team, player_hp, computer_hp, chosen_stat):
         print("It's a tie! Both Pokémon are discarded.")
 
     return player_hp, computer_hp
+
+    insert_data_scores()
+    create_table_scores(player_hp, computer_hp)
 
 #loops this sequence
 def battle(player_team, computer_team, chosen_stat):

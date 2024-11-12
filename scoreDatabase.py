@@ -15,18 +15,16 @@ def create_table_scores():
  conn.close() #closing the connection previously opened
 
 
-def insert_data_scores():
+def insert_data_scores(player_hp, computer_hp):
  #import health stat data from Alisha 
  conn = sqlite3.connect('scores.db') #database connection
  c = conn.cursor() #cursor creates table, inserts data etc
  c.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_user_id ON scores(id_user);")
- info_player = {'id_user':1,'user':'player','health_stat':65} #get health variable from Alisha 
- info_computer = {'id_user':2,'user':'computer','health_stat':75} #get health variable from Alisha 
+ info_player = {'id_user':1,'user':'player','health_stat':player_hp} #get health variable from Alisha 
+ info_computer = {'id_user':2,'user':'computer','health_stat':computer_hp} #get health variable from Alisha 
 
  c.execute("INSERT OR REPLACE INTO scores (id_user, user, health_stat) VALUES (:id_user, :user, :health_stat)", info_player) #adding data to table
  c.execute("INSERT OR REPLACE INTO scores (id_user, user, health_stat) VALUES (:id_user, :user, :health_stat)", info_computer) #adding data to table
  conn.commit() #by committing we are saving our changes to the database
  conn.close() #closing the connection previously opened 
 
-create_table_scores()
-insert_data_scores()
