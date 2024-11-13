@@ -173,9 +173,9 @@ def game_loop():
     computer_pokemons = computer_data(round)
 
     # Player selects the stat to compete on
-    print("Choose a stat for battle (hp, id, height, weight):")
+    print("Choose a stat for battle (id, height, weight):")
     stat_choice = input().strip().lower()
-    if stat_choice not in ["hp", "id", "height", "weight"]:
+    if stat_choice not in ["id", "height", "weight"]:
         print("Invalid stat choice. Please choose again.")
         return
 
