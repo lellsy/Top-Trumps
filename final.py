@@ -126,17 +126,6 @@ create_table_scores()
 
 #Giorgia's code end
 
-#Chisom's code start
- # Get player and computer Pokémon data
-# player_pokemons = player_data(round)
-# computer_pokemons = computer_data(round)
-
-# Display data for comparison
-# print("Welcome to Pokémon Top Trumps!\n")
-# print("Player's Pokémon:")
-# print(player_pokemons)
-# print("\nComputer's Pokémon:")
-# print(computer_pokemons)
 
 
 def player_select_pokemon(pokemon_list):
@@ -185,26 +174,10 @@ def battle(player_pokemon, computer_pokemon, total_stat, player_hp, computer_hp)
     else:
         # It's a tie
         print("It's a tie! Both Pokémon are discarded.")
-
-    # Return only two values: player_hp and computer_hp
-    insert_data_scores(player_hp, computer_hp)
-    return player_hp, computer_hp
-
-
     
-
-
-
-
-    #if player_stat > computer_stat:
-       # print("Player's Pokémon wins!")
-       # return "player"
-    #elif computer_stat > player_stat:
-        #print("Computer's Pokémon wins!")
-        #return "computer"
-    #else:
-       #print("It's a tie!")
-    #return "tie"
+    insert_data_scores(player_hp, computer_hp)
+    # Return only two values: player_hp and computer_hp
+    return player_hp, computer_hp
 
 
 #Chisom code
@@ -223,6 +196,9 @@ def game_loop():
     if stat_choice not in ["id", "height", "weight"]:
         print("Invalid stat choice. Please choose again.")
         return
+    
+    global player_hp
+    global computer_hp
 
 #alisha addition
     player_hp = calculate_initial_hp(player_pokemons, stat_choice)
@@ -230,14 +206,6 @@ def game_loop():
     insert_data_scores(player_hp, computer_hp)
 
     print(f"\nStarting battle! Player HP: {player_hp}, Computer HP: {computer_hp}\n")
-
-
-
-    # Initialize player and computer Pokémon data
-    #player_pokemons = player_data(game_round)
-    #computer_pokemons = computer_data(game_round)
-
-    
 
     
     #alisha addition
@@ -281,6 +249,8 @@ def game_loop():
 def calc_round(value):
    if not player_pokemons or not computer_pokemons:
       value += 1
+   elif player_hp <= 0 or computer_hp <=0: 
+      value += 1 
    return value
 
 def main():
