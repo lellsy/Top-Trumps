@@ -234,8 +234,8 @@ def game_loop():
 
 
     # Initialize player and computer Pokémon data
-    player_pokemons = player_data(game_round)
-    computer_pokemons = computer_data(game_round)
+    #player_pokemons = player_data(game_round)
+    #computer_pokemons = computer_data(game_round)
 
     
 
