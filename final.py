@@ -150,6 +150,8 @@ def computer_select_pokemon(pokemon_list):
     pokemon_name = random.choice(list(pokemon_list.keys()))
     return pokemon_name, pokemon_list[pokemon_name]
 
+
+#alisha
 #calculates the hp based on average of all 5 pokemon of the chosen stat
 def calculate_initial_hp(team, chosen_stat):
     """Calculates the initial HP as the average of the chosen stat across all Pokémon in the team."""
@@ -158,22 +160,8 @@ def calculate_initial_hp(team, chosen_stat):
     return total_stat // len(team)
 
 
-#Alisha Code Starts
-#def battle(player_pokemons, computer_pokemons, chosen_stat):
-    #"""Main game loop, continues rounds until a winner is decided."""
-    #player_hp = calculate_initial_hp(player_pokemons, chosen_stat)
-    #computer_hp = calculate_initial_hp(computer_pokemons, chosen_stat)
-    
-    #print("\nStarting battle!")
-    #print(f"Player HP: {player_hp}, Computer HP: {computer_hp}")
-    #print(f"Chosen stat for the game: {chosen_stat}\n")
-    
-    #while player_team and computer_team and player_hp > 0 and computer_hp > 0:
-       # player_hp, computer_hp = round(player_team, computer_team, player_hp, computer_hp, chosen_stat)
-       # print(f"Current HP -> Player: {player_hp}, Computer: {computer_hp}")
-#Alisha Code Ends
 
-
+#alisha
 def battle(player_pokemon, computer_pokemon, total_stat, player_hp, computer_hp):
     """Compares the chosen stat of two Pokémon to determine the winner."""
     player_stat = player_pokemon[total_stat]
@@ -213,6 +201,7 @@ def battle(player_pokemon, computer_pokemon, total_stat, player_hp, computer_hp)
     #return "tie"
 
 
+#Chisom code
 def game_loop():
     # Initial setup
     global player_pokemons
@@ -229,6 +218,7 @@ def game_loop():
         print("Invalid stat choice. Please choose again.")
         return
 
+#alisha addition
     player_hp = calculate_initial_hp(player_pokemons, stat_choice)
     computer_hp = calculate_initial_hp(computer_pokemons, stat_choice)
     insert_data_scores(player_hp, computer_hp)
@@ -250,6 +240,8 @@ def game_loop():
         print("Invalid stat choice. Please choose again.")
         return
 
+    
+    #alisha addition
     # Calculate initial HP based on the average of the chosen stat for each team
     player_hp = calculate_initial_hp(player_pokemons, stat_choice)
     computer_hp = calculate_initial_hp(computer_pokemons, stat_choice)
@@ -269,6 +261,8 @@ def game_loop():
         print(f"\nPlayer's chosen Pokémon: {player_pokemon_name} - {player_pokemon_stats}")
         print(f"Computer's chosen Pokémon: {computer_pokemon_name} - {computer_pokemon_stats}")
 
+
+#alisha
         # Battle round: we pass player_hp and computer_hp here
         player_hp, computer_hp = battle(player_pokemon_stats, computer_pokemon_stats, stat_choice, player_hp, computer_hp)
         print(f"Updated HP -> Player: {player_hp}, Computer: {computer_hp}")
