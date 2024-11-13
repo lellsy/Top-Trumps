@@ -208,14 +208,7 @@ def game_loop():
     print(f"\nStarting battle! Player HP: {player_hp}, Computer HP: {computer_hp}\n")
 
     
-    #alisha addition
-    # Calculate initial HP based on the average of the chosen stat for each team
-    player_hp = calculate_initial_hp(player_pokemons, stat_choice)
-    computer_hp = calculate_initial_hp(computer_pokemons, stat_choice)
-    
-
-    print(f"\nStarting battle! Player HP: {player_hp}, Computer HP: {computer_hp}\n")
-
+  
     # Game loop: continue until one team’s HP drops to zero
     while player_pokemons and computer_pokemons and player_hp > 0 and computer_hp > 0:
         # Player selects a Pokémon
