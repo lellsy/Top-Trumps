@@ -232,19 +232,12 @@ def game_loop():
     print(f"\nStarting battle! Player HP: {player_hp}, Computer HP: {computer_hp}\n")
 
 
-    def game_loop():
-        global game_round
 
     # Initialize player and computer Pokémon data
     player_pokemons = player_data(game_round)
     computer_pokemons = computer_data(game_round)
 
-    # Prompt player to choose a stat for battle
-    print("Choose a stat for battle (id, height, weight):")
-    stat_choice = input().strip().lower()
-    if stat_choice not in ["id", "height", "weight"]:
-        print("Invalid stat choice. Please choose again.")
-        return
+    
 
     
     #alisha addition
