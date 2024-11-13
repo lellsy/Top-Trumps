@@ -214,8 +214,8 @@ def game_loop():
     global computer_pokemons
 
 
-    player_pokemons = player_data(game_round)
-    computer_pokemons = computer_data(game_round)
+    player_pokemons = player_data(round)
+    computer_pokemons = computer_data(round)
 
     # Player selects the stat to compete on
     print("Choose a stat for battle (id, height, weight):")
@@ -294,7 +294,7 @@ def main():
     global round 
     while True:
         game_loop()
-        round = calc_round(game_round)
+        round = calc_round(round)
         play_again = input("\nDo you want to play again? (yes/no): ").strip().lower()
         if play_again != "yes":
             print("Thanks for playing!")
