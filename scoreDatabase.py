@@ -28,3 +28,9 @@ def insert_data_scores(player_hp, computer_hp):
  conn.commit() #by committing we are saving our changes to the database
  conn.close() #closing the connection previously opened 
 
+def delete_data_scores():
+  conn = sqlite3.connect('scores.db') #database connection
+  c = conn.cursor() #cursor creates table, inserts data etc
+  c.execute("DELETE FROM scores") #deleting the data
+  conn.commit() #by committing we are saving our changes to the database
+  conn.close() #closing the connection previously opened 

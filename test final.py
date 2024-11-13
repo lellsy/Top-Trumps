@@ -33,6 +33,13 @@ def insert_data_scores(player_hp, computer_hp):
  conn.commit() #by committing we are saving our changes to the database
  conn.close() #closing the connection previously opened 
 
+def delete_data_scores():
+  conn = sqlite3.connect('scores.db') #database connection
+  c = conn.cursor() #cursor creates table, inserts data etc
+  c.execute("DELETE FROM scores") #deleting the data
+  conn.commit() #by committing we are saving our changes to the database
+  conn.close() #closing the connection previously opened 
+
 def create_table_pokemons():
  conn = sqlite3.connect('pokemons.db') #database connection
  c = conn.cursor() #cursor creates table, inserts data etc
@@ -56,6 +63,13 @@ def insert_data_pokemons(user, round, pokemon_name, pokemon_id, height, weight):
  c.execute("INSERT OR REPLACE INTO pokemons (user, round, pokemon_name, pokemon_id, height, weight) VALUES (:user_name, :round, :pokemon_name, :pokemon_id, :height, :weight)", dictionary) #adding data to table
  conn.commit() #by committing we are saving our changes to the database
  conn.close() #closing the connection previously opened 
+
+def delete_data_pokemons():
+  conn = sqlite3.connect('pokemons.db') #database connection
+  c = conn.cursor() #cursor creates table, inserts data etc
+  c.execute("DELETE FROM pokemons") #deleting the data
+  conn.commit() #by committing we are saving our changes to the database
+  conn.close() #closing the connection previously opened 
 
 
 
@@ -108,15 +122,15 @@ def computer_data(round):
 
 #Chisom's code start
  # Get player and computer Pokémon data
-player_pokemons = player_data(round)
-computer_pokemons = computer_data(round)
+# player_pokemons = player_data(round)
+# computer_pokemons = computer_data(round)
 
 # Display data for comparison
-print("Welcome to Pokémon Top Trumps!\n")
-print("Player's Pokémon:")
-print(player_pokemons)
-print("\nComputer's Pokémon:")
-print(computer_pokemons)
+# print("Welcome to Pokémon Top Trumps!\n")
+# print("Player's Pokémon:")
+# print(player_pokemons)
+# print("\nComputer's Pokémon:")
+# print(computer_pokemons)
 
 
 def player_select_pokemon(pokemon_list):
@@ -153,8 +167,18 @@ def battle(player_pokemon, computer_pokemon, stat_choice):
 
 def game_loop():
     # Initial setup
+    global player_pokemons
+    global computer_pokemons
+
     player_pokemons = player_data(round)
     computer_pokemons = computer_data(round)
+
+
+    print("Welcome to Pokémon Top Trumps!\n")
+    print("Player's Pokémon:")
+    print(player_pokemons)
+    print("\nComputer's Pokémon:")
+    print(computer_pokemons)
 
     # Player selects the stat to compete on
     print("Choose a stat for battle (hp, id, height, weight):")
@@ -195,14 +219,25 @@ def game_loop():
             print("\nPlayer wins the game!")
             break
 
+def calc_round(value):
+   if not player_pokemons or not computer_pokemons:
+      value += 1
+   return value
 
 def main():
+    global round 
+
     while True:
         game_loop()
+        round = calc_round(round)
         play_again = input("\nDo you want to play again? (yes/no): ").strip().lower()
         if play_again != "yes":
             print("Thanks for playing!")
+            delete_data_scores()
+            delete_data_pokemons()
             break
+    
+    return round
 
 # Start the game
 main()
@@ -217,4 +252,6 @@ def calculate_initial_hp(team, chosen_stat):
     return total_stat // len(team)
 
 
-round +=1
+
+
+
