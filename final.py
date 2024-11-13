@@ -72,6 +72,9 @@ def delete_data_pokemons():
   conn.commit() #by committing we are saving our changes to the database
   conn.close() #closing the connection previously opened 
 
+
+
+
 def player_data(round):
  no_pokemons = 5 #number of pokemons that will be played
  selected_pokemons = {}
@@ -147,21 +150,69 @@ def computer_select_pokemon(pokemon_list):
     pokemon_name = random.choice(list(pokemon_list.keys()))
     return pokemon_name, pokemon_list[pokemon_name]
 
+#calculates the hp based on average of all 5 pokemon of the chosen stat
+def calculate_initial_hp(player_hp, computer_hp, team, chosen_stat):
+    total_stat = sum(pokemon[chosen_stat] for pokemon in team)
+    return total_stat // len(team)
 
-def battle(player_pokemon, computer_pokemon, stat_choice):
+
+#Alisha Code Starts
+#def battle(player_pokemons, computer_pokemons, chosen_stat):
+    #"""Main game loop, continues rounds until a winner is decided."""
+    #player_hp = calculate_initial_hp(player_pokemons, chosen_stat)
+    #computer_hp = calculate_initial_hp(computer_pokemons, chosen_stat)
+    
+    #print("\nStarting battle!")
+    #print(f"Player HP: {player_hp}, Computer HP: {computer_hp}")
+    #print(f"Chosen stat for the game: {chosen_stat}\n")
+    
+    #while player_team and computer_team and player_hp > 0 and computer_hp > 0:
+       # player_hp, computer_hp = round(player_team, computer_team, player_hp, computer_hp, chosen_stat)
+       # print(f"Current HP -> Player: {player_hp}, Computer: {computer_hp}")
+#Alisha Code Ends
+
+
+def battle(player_pokemon, computer_pokemon, total_stat, computer_hp, player_hp):
     """Compares the chosen stat of two Pokémon to determine the winner."""
-    player_stat = player_pokemon[stat_choice]
-    computer_stat = computer_pokemon[stat_choice]
+    player_stat = player_pokemon[total_stat]
+    computer_stat = computer_pokemon[total_stat]
     print(f"\nBattle! Player's {player_stat} vs Computer's {computer_stat}")
+    
+
+    player_stat = player_pokemon[total_stat]
+    computer_stat = computer_pokemon[total_stat]
+
     if player_stat > computer_stat:
-        print("Player's Pokémon wins!")
-        return "player"
+        # pif the player wins this round
+        damage = player_stat - computer_stat
+        computer_hp -= damage
+        print(f"Player wins this round! Computer loses {damage} HP.")
+        player_pokemon.append(player_pokemon)  
+        # winner's pokemon goes back to team
+
     elif computer_stat > player_stat:
-        print("Computer's Pokémon wins!")
-        return "computer"
+        # computer wins this round
+        damage = computer_stat - player_stat
+        player_hp -= damage
+        print(f"Computer wins this round! Player loses {damage} HP.")
+        computer_pokemon.append(computer_pokemon)  
+        # winner's pokemon goes back to team
+
     else:
-        print("It's a tie!")
-        return "tie"
+        # if its a tie they both lose
+        print("It's a tie! Both Pokémon are discarded.")
+
+    return player_hp, computer_hp
+
+    #if player_stat > computer_stat:
+       # print("Player's Pokémon wins!")
+       # return "player"
+    #elif computer_stat > player_stat:
+        #print("Computer's Pokémon wins!")
+        #return "computer"
+    #else:
+       #print("It's a tie!")
+    #return "tie"
 
 
 def game_loop():
@@ -232,14 +283,3 @@ def main():
 # Start the game
 main()
 #Chisom's code ends
-
-
-
-
-#calculates the hp based on average of all 5 pokemon of the chosen stat
-def calculate_initial_hp(team, chosen_stat):
-    total_stat = sum(pokemon[chosen_stat] for pokemon in team)
-    return total_stat // len(team)
-
-
-round +=1
