@@ -120,6 +120,9 @@ def computer_data(round):
    print("An error has occured!")
  return selected_pokemons
 
+
+create_table_scores()
+
 #Giorgia's code end
 
 #Chisom's code start
@@ -183,7 +186,9 @@ def battle(player_pokemon, computer_pokemon, total_stat, player_hp, computer_hp)
         print("It's a tie! Both Pokémon are discarded.")
 
     # Return only two values: player_hp and computer_hp
+    insert_data_scores(player_hp, computer_hp)
     return player_hp, computer_hp
+
 
     
 
@@ -245,7 +250,7 @@ def game_loop():
     # Calculate initial HP based on the average of the chosen stat for each team
     player_hp = calculate_initial_hp(player_pokemons, stat_choice)
     computer_hp = calculate_initial_hp(computer_pokemons, stat_choice)
-    insert_data_scores(player_hp, computer_hp)
+    
 
     print(f"\nStarting battle! Player HP: {player_hp}, Computer HP: {computer_hp}\n")
 
