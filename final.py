@@ -151,8 +151,10 @@ def computer_select_pokemon(pokemon_list):
     return pokemon_name, pokemon_list[pokemon_name]
 
 #calculates the hp based on average of all 5 pokemon of the chosen stat
-def calculate_initial_hp(player_hp, computer_hp, team, chosen_stat):
-    total_stat = sum(pokemon[chosen_stat] for pokemon in team)
+def calculate_initial_hp(team, chosen_stat):
+    """Calculates the initial HP as the average of the chosen stat across all Pokémon in the team."""
+    total_stat = sum(pokemon[chosen_stat] for pokemon in team.values())
+    # Calculate average as the initial HP
     return total_stat // len(team)
 
 
@@ -172,37 +174,33 @@ def calculate_initial_hp(player_hp, computer_hp, team, chosen_stat):
 #Alisha Code Ends
 
 
-def battle(player_pokemon, computer_pokemon, total_stat, computer_hp, player_hp):
+def battle(player_pokemon, computer_pokemon, total_stat, player_hp, computer_hp):
     """Compares the chosen stat of two Pokémon to determine the winner."""
     player_stat = player_pokemon[total_stat]
     computer_stat = computer_pokemon[total_stat]
     print(f"\nBattle! Player's {player_stat} vs Computer's {computer_stat}")
-    
-
-    player_stat = player_pokemon[total_stat]
-    computer_stat = computer_pokemon[total_stat]
 
     if player_stat > computer_stat:
-        # pif the player wins this round
+        # Player wins this round
         damage = player_stat - computer_stat
         computer_hp -= damage
         print(f"Player wins this round! Computer loses {damage} HP.")
-        player_pokemon.append(player_pokemon)  
-        # winner's pokemon goes back to team
-
     elif computer_stat > player_stat:
-        # computer wins this round
+        # Computer wins this round
         damage = computer_stat - player_stat
         player_hp -= damage
         print(f"Computer wins this round! Player loses {damage} HP.")
-        computer_pokemon.append(computer_pokemon)  
-        # winner's pokemon goes back to team
-
     else:
-        # if its a tie they both lose
+        # It's a tie
         print("It's a tie! Both Pokémon are discarded.")
 
+    # Return only two values: player_hp and computer_hp
     return player_hp, computer_hp
+
+    
+
+
+
 
     #if player_stat > computer_stat:
        # print("Player's Pokémon wins!")
@@ -220,6 +218,7 @@ def game_loop():
     global player_pokemons
     global computer_pokemons
 
+
     player_pokemons = player_data(round)
     computer_pokemons = computer_data(round)
 
@@ -230,38 +229,61 @@ def game_loop():
         print("Invalid stat choice. Please choose again.")
         return
 
-    # Game loop
-    while player_pokemons and computer_pokemons:
-        # Player chooses a Pokémon
+    player_hp = calculate_initial_hp(player_pokemons, stat_choice)
+    computer_hp = calculate_initial_hp(computer_pokemons, stat_choice)
+    insert_data_scores(player_hp, computer_hp)
+
+    print(f"\nStarting battle! Player HP: {player_hp}, Computer HP: {computer_hp}\n")
+
+
+    def game_loop():
+        global round
+
+    # Initialize player and computer Pokémon data
+    player_pokemons = player_data(round)
+    computer_pokemons = computer_data(round)
+
+    # Prompt player to choose a stat for battle
+    print("Choose a stat for battle (id, height, weight):")
+    stat_choice = input().strip().lower()
+    if stat_choice not in ["id", "height", "weight"]:
+        print("Invalid stat choice. Please choose again.")
+        return
+
+    # Calculate initial HP based on the average of the chosen stat for each team
+    player_hp = calculate_initial_hp(player_pokemons, stat_choice)
+    computer_hp = calculate_initial_hp(computer_pokemons, stat_choice)
+    insert_data_scores(player_hp, computer_hp)
+
+    print(f"\nStarting battle! Player HP: {player_hp}, Computer HP: {computer_hp}\n")
+
+    # Game loop: continue until one team’s HP drops to zero
+    while player_pokemons and computer_pokemons and player_hp > 0 and computer_hp > 0:
+        # Player selects a Pokémon
         player_pokemon_name, player_pokemon_stats = player_select_pokemon(player_pokemons)
 
-        # Computer randomly chooses a Pokémon
+        # Computer randomly selects a Pokémon
         computer_pokemon_name, computer_pokemon_stats = computer_select_pokemon(computer_pokemons)
 
-        # Display chosen Pokémon
+        # Display selected Pokémon for each side
         print(f"\nPlayer's chosen Pokémon: {player_pokemon_name} - {player_pokemon_stats}")
         print(f"Computer's chosen Pokémon: {computer_pokemon_name} - {computer_pokemon_stats}")
 
-        # Battle
-        winner = battle(player_pokemon_stats, computer_pokemon_stats, stat_choice)
+        # Battle round: we pass player_hp and computer_hp here
+        player_hp, computer_hp = battle(player_pokemon_stats, computer_pokemon_stats, stat_choice, player_hp, computer_hp)
+        print(f"Updated HP -> Player: {player_hp}, Computer: {computer_hp}")
 
-        # Remove the losing Pokémon
-        if winner == "player":
-            del computer_pokemons[computer_pokemon_name]
-        elif winner == "computer":
-            del player_pokemons[player_pokemon_name]
-        else:  # In case of a tie, both Pokémon are removed
-            del player_pokemons[player_pokemon_name]
-            del computer_pokemons[computer_pokemon_name]
+        # Remove the losing Pokémon from the lists
+        del player_pokemons[player_pokemon_name]
+        del computer_pokemons[computer_pokemon_name]
 
-        # Check if game is over
-        if not player_pokemons:
+        # Check if either side has lost all HP
+        if player_hp <= 0:
             print("\nComputer wins the game!")
             break
-        elif not computer_pokemons:
+        elif computer_hp <= 0:
             print("\nPlayer wins the game!")
             break
-
 
 def calc_round(value):
    if not player_pokemons or not computer_pokemons:
