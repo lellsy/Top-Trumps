@@ -4,6 +4,7 @@ import sqlite3
 
 
 round = 1
+game_round = 1
 
 #Giorgia's code start
 def create_table_scores():
@@ -213,8 +214,8 @@ def game_loop():
     global computer_pokemons
 
 
-    player_pokemons = player_data(round)
-    computer_pokemons = computer_data(round)
+    player_pokemons = player_data(game_round)
+    computer_pokemons = computer_data(game_round)
 
     # Player selects the stat to compete on
     print("Choose a stat for battle (id, height, weight):")
@@ -232,11 +233,11 @@ def game_loop():
 
 
     def game_loop():
-        global round
+        global game_round
 
     # Initialize player and computer Pokémon data
-    player_pokemons = player_data(round)
-    computer_pokemons = computer_data(round)
+    player_pokemons = player_data(game_round)
+    computer_pokemons = computer_data(game_round)
 
     # Prompt player to choose a stat for battle
     print("Choose a stat for battle (id, height, weight):")
@@ -293,7 +294,7 @@ def main():
     global round 
     while True:
         game_loop()
-        round = calc_round(round)
+        round = calc_round(game_round)
         play_again = input("\nDo you want to play again? (yes/no): ").strip().lower()
         if play_again != "yes":
             print("Thanks for playing!")
